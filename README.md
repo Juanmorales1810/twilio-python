@@ -1,6 +1,6 @@
 # twilio-python
 
-## Dependencies
+## Dependencias
 
 -   FastAPI
 -   uvicorn
