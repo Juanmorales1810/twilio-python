@@ -1,25 +1,28 @@
+import os
+
 from fastapi import Form, Request
 from fastapi.responses import Response
 from fastapi import APIRouter
-from querys.queryBot import handle_whatsapp_message
+from querys.queryBot import handle_whatsapp_message,manejar_mensaje_con_ia
 from twilio.rest import Client
 from pydantic import BaseModel 
 from dotenv import load_dotenv
 load_dotenv()
-import os
+
 
 client = Client(os.getenv("TWILIO_ACCOUNT_SID"), os.getenv("TWILIO_AUTH_TOKEN"))
 
 routerBotWhatsApp = APIRouter(prefix="/bot", tags=["bot"])
 
 @routerBotWhatsApp.post("/whatsapp", response_class=Response)
-async def whatsapp_webhook(
+def whatsapp_webhook(
     request: Request,
     From: str = Form(...),  # Número del usuario
     Body: str = Form(...)   # Mensaje recibido
 ):
     # Llama a la función handle_whatsapp_message para procesar el mensaje
-    response_text = handle_whatsapp_message(From, Body)
+    response_text = manejar_mensaje_con_ia(From, Body)
+    #response_text = handle_whatsapp_message(From, Body)
     return Response(content=response_text, media_type='application/xml')
 
 class MessageRequest(BaseModel):
