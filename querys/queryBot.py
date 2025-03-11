@@ -1,9 +1,65 @@
 # query/whatsapp_flow.py
 from twilio.twiml.messaging_response import MessagingResponse
 from datetime import datetime
+from pydantic_ai import Agent
+from pydantic_ai.tools import RunContext
+from pydantic_ai.models. gemini import GeminiModel
+from pydantic import BaseModel
+from pymongo import MongoClient
+import os
+
+class Person(BaseModel):
+    name: str
+    age: int
+
+coleccion = MongoClient(os.getenv("MONGODB_URL")).pydanticAI
+
+model= GeminiModel(os.getenv("model"), api_key=os.getenv("GEMINI_API_KEY"))
+agent = Agent(model=model, system_prompt="Always answer in spanish. Be kind and professional. Throw a message error if the question from the user isnt in your tools") #, tools=[RunContext()])
 
 # Almacenamiento temporal del estado del usuario
 user_state = {}
+
+
+@agent.tool
+def find_oldest_person(ctx: RunContext):
+    """Function to find the oldest person in the database."""
+    result = list(coleccion.personas.find().sort("age", -1).limit(1))
+    if result:
+        person = result[0]
+        return f"The oldest person is {person['name']} who is {person['age']} years old."
+    return "No people found in the database."
+
+@agent.tool
+def find_people_over_age(ctx: RunContext, age: int):
+    """Function to find people older than a certain age."""
+    results = list(coleccion.personas.find({"age": {"$gt": age}}))
+    return [Person(name=p["name"], age=p["age"]) for p in results]
+
+@agent.tool
+def list_people_same_age(ctx: RunContext, age: int):
+    """Function to list people with the same age."""
+    results = list(coleccion.personas.find({"age": {"$eq": age}}))
+    return [Person(name=p["name"], age=p["age"]) for p in results]
+
+# Función para procesar consultas con la IA
+def process_ai_query(query: str):
+    result = agent.run_sync(query)
+    return result.data
+
+
+
+def manejar_mensaje_con_ia(phone_number: str, incoming_msg: str) -> str:
+    incoming_msg = incoming_msg.strip().lower()
+    response = MessagingResponse()
+    message = response.message()
+    respuesta_ia = process_ai_query(incoming_msg)
+
+    message.body(respuesta_ia)
+
+    return(str(response))
+
+
 
 def handle_whatsapp_message(phone_number: str, incoming_msg: str) -> str:
     incoming_msg = incoming_msg.strip()
