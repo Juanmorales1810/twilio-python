@@ -1,12 +1,14 @@
 # query/whatsapp_flow.py
-from twilio.twiml.messaging_response import MessagingResponse
-from datetime import datetime
-from pydantic_ai import Agent
-from pydantic_ai.tools import RunContext
-from pydantic_ai.models. gemini import GeminiModel
-from pydantic import BaseModel
-from pymongo import MongoClient
 import os
+from datetime import datetime
+
+from pydantic import BaseModel
+from pydantic_ai import Agent
+from pydantic_ai.models. gemini import GeminiModel
+from pydantic_ai.tools import RunContext
+from pymongo import MongoClient
+from twilio.twiml.messaging_response import MessagingResponse
+
 
 class Person(BaseModel):
     name: str

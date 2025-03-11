@@ -1,12 +1,13 @@
 import os
 
-from fastapi import Form, Request
-from fastapi.responses import Response
-from fastapi import APIRouter
-from querys.queryBot import handle_whatsapp_message,manejar_mensaje_con_ia
-from twilio.rest import Client
-from pydantic import BaseModel 
 from dotenv import load_dotenv
+from fastapi import APIRouter, Form, Request
+from fastapi.responses import Response
+from pydantic import BaseModel
+from twilio.rest import Client
+
+from querys.queryBot import handle_whatsapp_message, manejar_mensaje_con_ia
+
 load_dotenv()
 
 
