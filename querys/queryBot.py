@@ -17,7 +17,7 @@ class Person(BaseModel):
 coleccion = MongoClient(os.getenv("MONGODB_URL")).pydanticAI
 
 model= GeminiModel(os.getenv("model"), api_key=os.getenv("GEMINI_API_KEY"))
-agent = Agent(model=model, system_prompt="Always answer in spanish. Be kind and professional. Throw a message error if the question from the user isnt in your tools") #, tools=[RunContext()])
+agent = Agent(model=model, system_prompt="Always answer in spanish. Be kind and professional. Throw a message error if the question from the user isnt in your tools.") #, tools=[RunContext()])
 
 # Almacenamiento temporal del estado del usuario
 user_state = {}
