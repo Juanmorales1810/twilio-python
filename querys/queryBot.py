@@ -4,7 +4,7 @@ from datetime import datetime
 
 from pydantic import BaseModel
 from pydantic_ai import Agent
-from pydantic_ai.models. gemini import GeminiModel
+from pydantic_ai.models.gemini import GeminiModel
 from pydantic_ai.tools import RunContext
 from pymongo import MongoClient
 from twilio.twiml.messaging_response import MessagingResponse
@@ -17,7 +17,18 @@ class Person(BaseModel):
 coleccion = MongoClient(os.getenv("MONGODB_URL")).pydanticAI
 
 model= GeminiModel(os.getenv("model"), api_key=os.getenv("GEMINI_API_KEY"))
-agent = Agent(model=model, system_prompt="Always answer in spanish. Be kind and professional. Throw a message error if the question from the user isnt in your tools.") #, tools=[RunContext()])
+agent = Agent(model=model, system_prompt="""Eres un asistente especializado en consultas de base de datos de personas. 
+SOLO puedes responder preguntas relacionadas con:
+- Encontrar la persona más vieja
+- Buscar personas mayores a cierta edad
+- Listar personas con la misma edad
+
+SIEMPRE responde en español. Sé amable y profesional.
+
+Si el usuario te hace una pregunta que NO está relacionada con estas funciones específicas de consulta de personas, responde únicamente: 
+"Lo siento, solo puedo ayudarte con consultas sobre personas en la base de datos. Puedo encontrar la persona más vieja, buscar personas mayores a cierta edad, o listar personas con la misma edad. ¿En qué puedo ayudarte?"
+
+NO generes código, NO hagas cálculos matemáticos, NO respondas preguntas generales. Solo usa las herramientas disponibles para consultas de personas.""") #, tools=[RunContext()])
 
 # Almacenamiento temporal del estado del usuario
 user_state = {}
