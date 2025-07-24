@@ -73,8 +73,6 @@ def manejar_mensaje_con_ia(phone_number: str, incoming_msg: str) -> str:
     return(str(response))
 
 
-
-def handle_whatsapp_message(phone_number: str, incoming_msg: str) -> str:
     incoming_msg = incoming_msg.strip()
     response = MessagingResponse()
     message = response.message()
