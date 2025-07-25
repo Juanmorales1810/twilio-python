@@ -107,6 +107,9 @@ twilio-python/
 │   └── routerBot.py      # Rutas del chatbot
 ├── 📁 utils/             # Utilidades
 │   └── validators.py     # Validadores de datos
+├── 📁 tests/             # Pruebas del sistema
+│   ├── test_*.py         # Archivos de prueba
+│   └── README.md         # Documentación de tests
 ├── 📁 querys/            # Legacy (para compatibilidad)
 ├── main.py               # Aplicación principal
 ├── config.py             # Configuración del sistema
@@ -203,8 +206,13 @@ Modifica `_get_system_prompt()` en `chatbot_service.py` para ajustar el comporta
 ## 🧪 Testing
 
 ```bash
-# Ejecutar pruebas (cuando se implementen)
-pytest tests/
+# Ejecutar pruebas individuales
+H:/twilio-python/venv/Scripts/python.exe tests/test_appointment_flow.py
+H:/twilio-python/venv/Scripts/python.exe tests/test_natural_dates.py
+H:/twilio-python/venv/Scripts/python.exe tests/test_progressive_saving.py
+
+# Ver documentación completa de tests
+cat tests/README.md
 
 # Probar webhook localmente con ngrok
 ngrok http 8000
