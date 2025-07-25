@@ -31,7 +31,7 @@ class Config:
     # Contact Information
     AGENCY_PHONE = os.getenv("AGENCY_PHONE", "(787) 555-0123")
     AGENCY_EMAIL = os.getenv("AGENCY_EMAIL", "contacto@toyota-sanjuan.com")
-    AGENCY_ADDRESS = os.getenv("AGENCY_ADDRESS", "Av. Roosevelt 1234, San Juan, Puerto Rico")
+    AGENCY_ADDRESS = os.getenv("AGENCY_ADDRESS", "Av. Roosevelt 1234, San Juan, Argentina")
     
     @classmethod
     def validate_config(cls) -> bool:
