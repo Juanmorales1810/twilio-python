@@ -29,16 +29,43 @@ def validate_date(date_str: str) -> Optional[datetime]:
 def validate_time(time_str: str) -> Optional[str]:
     """Valida formato de hora"""
     try:
-        # Validar formato HH:MM
-        time_obj = datetime.strptime(time_str, "%H:%M")
+        # Limpiar el string
+        time_str = time_str.strip()
+        
+        # Intentar diferentes formatos
+        formats_to_try = [
+            "%H:%M",      # 18:00
+            "%H",         # 18
+            "%I:%M %p",   # 6:00 PM  
+            "%I %p"       # 6 PM
+        ]
+        
+        time_obj = None
+        for fmt in formats_to_try:
+            try:
+                time_obj = datetime.strptime(time_str, fmt)
+                break
+            except ValueError:
+                continue
+        
+        if time_obj is None:
+            return None
+            
         hour = time_obj.hour
         
-        # Validar que esté en horario de atención (9:00-18:00)
+        # Validar que esté en horario de atención
+        # Lunes a Viernes: 9:00-18:00, Sábado: 9:00-14:00
+        # Permitir 6:00 como 18:00 (6 PM) 
+        if hour == 6:
+            # Probablemente es 6 PM = 18:00
+            hour = 18
+        
         if 9 <= hour <= 18:
-            return time_str
+            # Convertir a formato 24h estándar
+            return f"{hour:02d}:{time_obj.minute:02d}"
         else:
             return None
-    except ValueError:
+    except Exception:
         return None
 
 
