@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers.routerBot import routerBotWhatsApp
+from routers.dashboard import router as dashboard_router
 from config import Config
 import sys
 
@@ -38,6 +39,7 @@ app.add_middleware(
 
 # Incluir routers
 app.include_router(routerBotWhatsApp)
+app.include_router(dashboard_router)
 
 @app.get("/")
 async def root():
