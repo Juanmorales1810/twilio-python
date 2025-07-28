@@ -1,11 +1,24 @@
 "use client";
 
-import { DashboardNav } from "@/components/dashboard/dashboard-nav";
+import { AppSidebar } from "@/components/app-sidebar";
+import {
+    SidebarInset,
+    SidebarProvider,
+    SidebarTrigger,
+} from "@/components/ui/sidebar";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Bell, LogOut } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 interface DashboardLayoutProps {
     children: React.ReactNode;
@@ -13,6 +26,7 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
     const router = useRouter();
+    const pathname = usePathname();
 
     const handleLogout = async () => {
         try {
@@ -23,32 +37,74 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         }
     };
 
+    // Function to get breadcrumb info based on current path
+    const getBreadcrumbInfo = () => {
+        const segments = pathname.split("/").filter(Boolean);
+
+        const breadcrumbMap: { [key: string]: string } = {
+            admin: "Dashboard",
+            users: "Usuarios",
+            appointments: "Citas",
+            vehicles: "Vehículos",
+            conversations: "Conversaciones",
+            settings: "Configuración",
+        };
+
+        if (segments.length === 1 && segments[0] === "admin") {
+            return { section: "Dashboard", page: "Resumen General" };
+        }
+
+        const section = segments[1];
+        return {
+            section: breadcrumbMap[section] || "Dashboard",
+            page:
+                segments.length > 2
+                    ? "Detalle"
+                    : breadcrumbMap[section] || "Dashboard",
+        };
+    };
+
+    const { section, page } = getBreadcrumbInfo();
+
     return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Header */}
-            <header className="bg-white border-b border-gray-200">
-                <div className="flex items-center justify-between px-6 py-4">
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-900">
-                            Toyota San Juan
-                        </h1>
-                        <p className="text-sm text-gray-500">
-                            Panel de Administración
-                        </p>
+        <SidebarProvider>
+            <AppSidebar />
+            <SidebarInset>
+                <header className="flex h-16 shrink-0 items-center gap-2 border-b">
+                    <div className="flex items-center gap-2 px-4 flex-1">
+                        <SidebarTrigger className="-ml-1" />
+                        <Separator
+                            orientation="vertical"
+                            className="mr-2 data-[orientation=vertical]:h-4"
+                        />
+                        <Breadcrumb>
+                            <BreadcrumbList>
+                                <BreadcrumbItem className="hidden md:block">
+                                    <BreadcrumbLink href="/admin">
+                                        Toyota San Juan
+                                    </BreadcrumbLink>
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator className="hidden md:block" />
+                                <BreadcrumbItem>
+                                    <BreadcrumbPage>{section}</BreadcrumbPage>
+                                </BreadcrumbItem>
+                            </BreadcrumbList>
+                        </Breadcrumb>
                     </div>
 
-                    <div className="flex items-center space-x-4">
+                    {/* Header Actions */}
+                    <div className="flex items-center space-x-4 px-4">
                         <Button variant="outline" size="sm">
                             <Bell className="h-4 w-4" />
                         </Button>
 
                         <div className="flex items-center space-x-2">
-                            <Avatar>
+                            <Avatar className="h-8 w-8">
                                 <AvatarFallback>AD</AvatarFallback>
                             </Avatar>
-                            <div className="text-sm">
+                            <div className="text-sm hidden md:block">
                                 <p className="font-medium">Administrador</p>
-                                <p className="text-gray-500">
+                                <p className="text-muted-foreground text-xs">
                                     admin@toyota.com
                                 </p>
                             </div>
@@ -62,20 +118,11 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                             <LogOut className="h-4 w-4" />
                         </Button>
                     </div>
-                </div>
-            </header>
-
-            <div className="flex">
-                {/* Sidebar */}
-                <aside className="w-64 bg-white border-r border-gray-200 min-h-[calc(100vh-73px)]">
-                    <div className="p-6">
-                        <DashboardNav />
-                    </div>
-                </aside>
+                </header>
 
                 {/* Main content */}
                 <main className="flex-1 p-6">{children}</main>
-            </div>
-        </div>
+            </SidebarInset>
+        </SidebarProvider>
     );
 }

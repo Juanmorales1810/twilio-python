@@ -24,7 +24,7 @@ const navigation = [
         href: "/admin/conversations",
         icon: MessageSquare,
     },
-    { name: "Estadísticas", href: "/admin/analytics", icon: BarChart3 },
+    { name: "Estadísticas", href: "/admin/stats", icon: BarChart3 },
     { name: "Configuración", href: "/admin/settings", icon: Settings },
 ];
 
