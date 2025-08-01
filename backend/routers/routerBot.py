@@ -1,19 +1,14 @@
 import os
 
-from dotenv import load_dotenv
+from config.connections import client
 from fastapi import APIRouter, Form, Request
 from fastapi.responses import Response
-from pydantic import BaseModel
-from twilio.rest import Client
+from models.modelMsg import MessageRequest
+from queries.queryBot import manejar_mensaje_con_ia, process_ai_query
 
-from querys.queryBot import handle_whatsapp_message, manejar_mensaje_con_ia
-
-load_dotenv()
-
-
-client = Client(os.getenv("TWILIO_ACCOUNT_SID"), os.getenv("TWILIO_AUTH_TOKEN"))
 
 routerBotWhatsApp = APIRouter(prefix="/bot", tags=["bot"])
+
 
 @routerBotWhatsApp.post("/whatsapp", response_class=Response)
 def whatsapp_webhook(
@@ -26,9 +21,7 @@ def whatsapp_webhook(
     #response_text = handle_whatsapp_message(From, Body)
     return Response(content=response_text, media_type='application/xml')
 
-class MessageRequest(BaseModel):
-    to: str
-    message: str
+
 
 @routerBotWhatsApp.post("/send-message")
 async def send_custom_message(request: MessageRequest):
@@ -41,3 +34,10 @@ async def send_custom_message(request: MessageRequest):
         return {"status": "success", "sid": message.sid}
     except Exception as e:
         return {"status": "error", "message": str(e)}
+    
+
+@routerBotWhatsApp.post("/test-ai")
+def testAI(msg: str):
+    message=  process_ai_query(msg)
+
+    return message
