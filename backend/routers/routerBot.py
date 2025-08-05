@@ -3,11 +3,10 @@ import os
 from dotenv import load_dotenv
 from fastapi import APIRouter, Form, Request
 from fastapi.responses import Response
-from pydantic import BaseModel
+from schemas.schemaBot import AppointmentStatusRequest, MessageRequest
+from services.chatbot_service import ToyotaChatbotService
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
-
-from services.chatbot_service import ToyotaChatbotService
 
 load_dotenv()
 
@@ -45,14 +44,6 @@ def whatsapp_webhook(
         
         return Response(content=str(response), media_type='application/xml')
 
-class MessageRequest(BaseModel):
-    to: str
-    message: str
-
-
-class AppointmentStatusRequest(BaseModel):
-    appointment_id: str
-    status: str  # "confirmada", "cancelada"
 
 
 @routerBotWhatsApp.post("/send-message")

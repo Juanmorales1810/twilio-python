@@ -1,40 +1,15 @@
 from datetime import datetime, timedelta
-from typing import List, Dict, Any
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+
 from database.connection import DatabaseManager
-from models.user import UserData, Appointment, ConversationMessage
+from fastapi import APIRouter, HTTPException
+from schemas.schemaDashboard import (
+    DashboardData,
+    DashboardStats,
+    RecentActivity,
+    VehiclePopularity,
+)
 
 router = APIRouter(prefix="/api/dashboard", tags=["Dashboard"])
-
-
-class DashboardStats(BaseModel):
-    total_users: int
-    total_users_growth: float
-    pending_appointments: int
-    appointments_today: int
-    available_vehicles: int
-    messages_today: int
-    messages_growth: float
-
-
-class RecentActivity(BaseModel):
-    type: str  # "appointment", "user", "message"
-    description: str
-    details: str
-    timestamp: datetime
-
-
-class VehiclePopularity(BaseModel):
-    model: str
-    category: str
-    consultations: int
-
-
-class DashboardData(BaseModel):
-    stats: DashboardStats
-    recent_activity: List[RecentActivity]
-    popular_vehicles: List[VehiclePopularity]
 
 
 @router.get("/stats", response_model=DashboardStats)
@@ -137,7 +112,7 @@ async def get_dashboard_stats():
         raise HTTPException(status_code=500, detail=f"Error al obtener estadísticas: {str(e)}")
 
 
-@router.get("/recent-activity", response_model=List[RecentActivity])
+@router.get("/recent-activity", response_model=list[RecentActivity])
 async def get_recent_activity():
     """Obtiene la actividad reciente del sistema"""
     try:
@@ -188,7 +163,7 @@ async def get_recent_activity():
         raise HTTPException(status_code=500, detail=f"Error al obtener actividad reciente: {str(e)}")
 
 
-@router.get("/popular-vehicles", response_model=List[VehiclePopularity])
+@router.get("/popular-vehicles", response_model=list[VehiclePopularity])
 async def get_popular_vehicles():
     """Obtiene los vehículos más consultados"""
     try:

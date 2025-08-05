@@ -25,43 +25,45 @@ class ToyotaChatbotService:
         )
 
     def _get_system_prompt(self) -> str:
-        return """Eres un asistente virtual especializado para la agencia Señor Gonzalez. 
+        return """
+    Eres un asistente virtual especializado para la agencia Señor Gonzalez. 
 
-TU PERSONALIDAD:
-- Conversacional y natural (evita respuestas muy estructuradas)
-- Amable y profesional pero relajado
-- Entusiasta sobre los vehículos Toyota
-- Ayudas de forma proactiva
+    TU PERSONALIDAD:
+    - Conversacional y natural (evita respuestas muy estructuradas)
+    - Amable y profesional pero relajado
+    - Entusiasta sobre los vehículos Toyota
+    - Ayudas de forma proactiva
 
-TUS OBJETIVOS:
-1. Ayudar con información sobre vehículos Toyota
-2. Guiar naturalmente hacia agendar citas
-3. Responder preguntas sobre modelos, precios y características
-4. Crear una experiencia conversacional fluida
+    TUS OBJETIVOS:
+    1. Ayudar con información sobre vehículos Toyota
+    2. Guiar naturalmente hacia agendar citas
+    3. Responder preguntas sobre modelos, precios y características
+    4. Crear una experiencia conversacional fluida
 
-INFORMACIÓN DE LA AGENCIA:
-- Señor Gonzalez, Argentina
-- Teléfono: (787) 555-0123
-- Email: contacto@señorgonzalez.com
-- Horarios: Lun-Vie 9:00-18:00, Sáb 9:00-14:00
-- Dirección: Av. Principal 123, San Juan, AR 00901
+    INFORMACIÓN DE LA AGENCIA:
+    - Señor Gonzalez, Argentina
+    - Teléfono: (787) 555-0123
+    - Email: contacto@señorgonzalez.com
+    - Horarios: Lun-Vie 9:00-18:00, Sáb 9:00-14:00
+    - Dirección: Av. Principal 123, San Juan, AR 00901
 
-MODELOS DISPONIBLES:
-- Corolla 2024: $23,000-$28,000 (sedán compacto, confiable, eficiente)
-- Camry 2024: $26,000-$35,000 (sedán mediano, premium, espacioso)
-- RAV4 2024: $29,000-$38,000 (SUV compacta, versátil, adventure-ready)
-- Highlander 2024: $36,000-$48,000 (SUV familiar, 3 filas, espacioso)
-- Prius 2024: $28,000-$33,000 (híbrido, eco-friendly, innovador)
-- Tacoma 2024: $32,000-$45,000 (pickup, resistente, trabajo/aventura)
+    MODELOS DISPONIBLES:
+    - Corolla 2024: $23,000-$28,000 (sedán compacto, confiable, eficiente)
+    - Camry 2024: $26,000-$35,000 (sedán mediano, premium, espacioso)
+    - RAV4 2024: $29,000-$38,000 (SUV compacta, versátil, adventure-ready)
+    - Highlander 2024: $36,000-$48,000 (SUV familiar, 3 filas, espacioso)
+    - Prius 2024: $28,000-$33,000 (híbrido, eco-friendly, innovador)
+    - Tacoma 2024: $32,000-$45,000 (pickup, resistente, trabajo/aventura)
 
-INSTRUCCIONES IMPORTANTES:
-- Responde SIEMPRE en español
-- Sé natural en la conversación, no uses listas numeradas a menos que sea necesario
-- Si no sabes algo específico, ofrece conectar con un representante
-- Cuando mencionen pruebas de manejo o citas, ayúdalos a agendar
-- Si preguntan por otras marcas, redirige amablemente a Toyota
-- Usa emojis moderadamente para ser más amigable
-- Adapta tu respuesta al contexto de la conversación anterior"""
+    INSTRUCCIONES IMPORTANTES:
+    - Responde SIEMPRE en español
+    - Sé natural en la conversación, no uses listas numeradas a menos que sea necesario
+    - Si no sabes algo específico, ofrece conectar con un representante
+    - Cuando mencionen pruebas de manejo o citas, ayúdalos a agendar
+    - Si preguntan por otras marcas, redirige amablemente a Toyota
+    - Usa emojis moderadamente para ser más amigable
+    - Adapta tu respuesta al contexto de la conversación anterior
+    """
 
     def process_message(self, phone_number: str, message: str) -> str:
         """Procesa un mensaje del usuario y devuelve la respuesta"""
@@ -144,21 +146,21 @@ INSTRUCCIONES IMPORTANTES:
         try:
             # Crear prompt específico según la situación
             prompt = f"""
-CONTEXTO DE LA CONVERSACIÓN:
-{context}
+    CONTEXTO DE LA CONVERSACIÓN:
+    {context}
 
-INSTRUCCIONES ESPECÍFICAS:
-- Si es el primer mensaje o saludo, da la bienvenida y pregunta cómo puedes ayudar de forma natural
-- Si preguntan sobre vehículos, proporciona información específica y ofrece agendar prueba de manejo
-- Si quieren agendar cita y no tienes su nombre, pregunta por él naturalmente
-- Si tienes el nombre pero no email, pide el email
-- Si tienes nombre y email pero no fecha, sugiere fechas disponibles
-- Si tienes nombre, email y fecha pero no hora, sugiere horarios
-- Si necesitas saber qué vehículo les interesa para la cita, pregúntalo
-- Mantén la conversación fluida y natural
+    INSTRUCCIONES ESPECÍFICAS:
+    - Si es el primer mensaje o saludo, da la bienvenida y pregunta cómo puedes ayudar de forma natural
+    - Si preguntan sobre vehículos, proporciona información específica y ofrece agendar prueba de manejo
+    - Si quieren agendar cita y no tienes su nombre, pregunta por él naturalmente
+    - Si tienes el nombre pero no email, pide el email
+    - Si tienes nombre y email pero no fecha, sugiere fechas disponibles
+    - Si tienes nombre, email y fecha pero no hora, sugiere horarios
+    - Si necesitas saber qué vehículo les interesa para la cita, pregúntalo
+    - Mantén la conversación fluida y natural
 
-RESPONDE DE FORMA NATURAL Y CONVERSACIONAL AL ÚLTIMO MENSAJE DEL USUARIO.
-"""
+    RESPONDE DE FORMA NATURAL Y CONVERSACIONAL AL ÚLTIMO MENSAJE DEL USUARIO.
+    """
             
             # Generar respuesta con IA
             ai_response = self.agent.run_sync(prompt)
@@ -275,12 +277,12 @@ RESPONDE DE FORMA NATURAL Y CONVERSACIONAL AL ÚLTIMO MENSAJE DEL USUARIO.
         # Usar IA para respuesta natural después de validar
         try:
             prompt = f"""
-El usuario acaba de proporcionar su email: {email}
-Ya tenemos su nombre: {user_data.conversation_data.get('nombre', 'N/A')}
+    El usuario acaba de proporcionar su email: {email}
+    Ya tenemos su nombre: {user_data.conversation_data.get('nombre', 'N/A')}
 
-Responde de forma natural confirmando el email y pidiendo la fecha preferida para la cita.
-Sugiere fechas disponibles de forma conversacional.
-"""
+    Responde de forma natural confirmando el email y pidiendo la fecha preferida para la cita.
+    Sugiere fechas disponibles de forma conversacional.
+    """
             ai_response = self.agent.run_sync(prompt)
             response_text = str(ai_response.data)
         except:
@@ -308,12 +310,12 @@ Sugiere fechas disponibles de forma conversacional.
         # Usar IA para respuesta natural después de validar
         try:
             prompt = f"""
-El usuario eligió la fecha: {date_str}
-Ya tenemos: nombre: {user_data.conversation_data.get('nombre')}, email: {user_data.conversation_data.get('email')}
+    El usuario eligió la fecha: {date_str}
+    Ya tenemos: nombre: {user_data.conversation_data.get('nombre')}, email: {user_data.conversation_data.get('email')}
 
-Responde de forma natural confirmando la fecha y preguntando por el horario preferido.
-Sugiere horarios disponibles (9:00 AM - 6:00 PM de lunes a viernes, 9:00 AM - 2:00 PM sábados).
-"""
+    Responde de forma natural confirmando la fecha y preguntando por el horario preferido.
+    Sugiere horarios disponibles (9:00 AM - 6:00 PM de lunes a viernes, 9:00 AM - 2:00 PM sábados).
+    """
             ai_response = self.agent.run_sync(prompt)
             response_text = str(ai_response.data)
         except:
@@ -347,12 +349,12 @@ Sugiere horarios disponibles (9:00 AM - 6:00 PM de lunes a viernes, 9:00 AM - 2:
         if not user_data.conversation_data.get("vehiculo_interes") and not user_data.conversation_data.get("vehiculo_consultado"):
             try:
                 prompt = f"""
-El usuario eligió la hora: {time_str}
-Tenemos todos los datos básicos de la cita pero necesitamos saber qué vehículo le interesa.
+    El usuario eligió la hora: {time_str}
+    Tenemos todos los datos básicos de la cita pero necesitamos saber qué vehículo le interesa.
 
-Responde de forma natural confirmando la hora y preguntando qué modelo Toyota le gustaría ver o probar.
-Menciona nuestros modelos disponibles de forma conversacional.
-"""
+    Responde de forma natural confirmando la hora y preguntando qué modelo Toyota le gustaría ver o probar.
+    Menciona nuestros modelos disponibles de forma conversacional.
+    """
                 ai_response = self.agent.run_sync(prompt)
                 response_text = str(ai_response.data)
             except:
@@ -369,15 +371,15 @@ Menciona nuestros modelos disponibles de forma conversacional.
         
         try:
             prompt = f"""
-Tenemos todos los datos para la cita:
-- Nombre: {user_data.conversation_data.get('nombre')}
-- Email: {user_data.conversation_data.get('email')}
-- Fecha: {user_data.conversation_data.get('fecha')}
-- Hora: {time_str}
-- Vehículo: {vehicle}
+    Tenemos todos los datos para la cita:
+    - Nombre: {user_data.conversation_data.get('nombre')}
+    - Email: {user_data.conversation_data.get('email')}
+    - Fecha: {user_data.conversation_data.get('fecha')}
+    - Hora: {time_str}
+    - Vehículo: {vehicle}
 
-Crea un resumen natural de la cita y pide confirmación de forma amigable.
-"""
+    Crea un resumen natural de la cita y pide confirmación de forma amigable.
+    """
             ai_response = self.agent.run_sync(prompt)
             response_text = str(ai_response.data)
         except:
@@ -411,32 +413,32 @@ Crea un resumen natural de la cita y pide confirmación de forma amigable.
             # Usar IA para mensaje de confirmación natural
             try:
                 prompt = f"""
-La cita ha sido confirmada exitosamente. Datos:
-- Nombre: {appointment.name}
-- Fecha: {appointment.date}
-- Hora: {appointment.time}
-- Vehículo: {appointment.vehicle_interest}
+    La cita ha sido confirmada exitosamente. Datos:
+    - Nombre: {appointment.name}
+    - Fecha: {appointment.date}
+    - Hora: {appointment.time}
+    - Vehículo: {appointment.vehicle_interest}
 
-Crea un mensaje de confirmación natural y amigable. 
-Incluye información de contacto de la agencia y agradece la preferencia.
-Información de contacto: (787) 555-0123, Av. Principal 123, San Juan, PR
-"""
+    Crea un mensaje de confirmación natural y amigable. 
+    Incluye información de contacto de la agencia y agradece la preferencia.
+    Información de contacto: (787) 555-0123, Av. Principal 123, San Juan, PR
+    """
                 ai_response = self.agent.run_sync(prompt)
                 response_text = str(ai_response.data)
             except:
                 response_text = f"""✅ ¡Cita confirmada exitosamente!
 
-📋 Resumen:
-• Nombre: {appointment.name}
-• Fecha: {appointment.date}
-• Hora: {appointment.time}
-• Vehículo: {appointment.vehicle_interest}
+    📋 Resumen:
+    • Nombre: {appointment.name}
+    • Fecha: {appointment.date}
+    • Hora: {appointment.time}
+    • Vehículo: {appointment.vehicle_interest}
 
-📍 Te esperamos en Toyota San Juan
-Av. Principal 123, San Juan, PR
-📞 (787) 555-0123
+    📍 Te esperamos en Toyota San Juan
+    Av. Principal 123, San Juan, PR
+    📞 (787) 555-0123
 
-¡Gracias por elegir Toyota! 🚗"""
+    ¡Gracias por elegir Toyota! 🚗"""
             
             # Reset user conversation
             self.db.reset_user_conversation(user_data.phone_number)
@@ -451,12 +453,12 @@ Av. Principal 123, San Juan, PR
             # Usar IA para manejar modificaciones
             try:
                 prompt = f"""
-El usuario no confirmó la cita o quiere hacer cambios.
-Su mensaje: {message}
-Datos actuales: {user_data.conversation_data}
+    El usuario no confirmó la cita o quiere hacer cambios.
+    Su mensaje: {message}
+    Datos actuales: {user_data.conversation_data}
 
-Responde de forma natural preguntando qué le gustaría cambiar y cómo ayudarle.
-"""
+    Responde de forma natural preguntando qué le gustaría cambiar y cómo ayudarle.
+    """
                 ai_response = self.agent.run_sync(prompt)
                 response_text = str(ai_response.data)
             except:
@@ -467,24 +469,24 @@ Responde de forma natural preguntando qué le gustaría cambiar y cómo ayudarle
                 next_step="solicitar_fecha"  # Restart appointment process
             )
         
-        if not validate_email(email):
-            response_text = "❌ El formato del correo no es válido. Por favor, ingresa un correo válido (ejemplo: usuario@dominio.com):"
-            return BotResponse(
-                response_text=response_text,
-                next_step="solicitar_email",
-                should_save=False
-            )
+#         if not validate_email(email):
+#             response_text = "❌ El formato del correo no es válido. Por favor, ingresa un correo válido (ejemplo: usuario@dominio.com):"
+#             return BotResponse(
+#                 response_text=response_text,
+#                 next_step="solicitar_email",
+#                 should_save=False
+#             )
         
-        response_text = """📅 ¿Para qué fecha te gustaría agendar la cita?
+#         response_text = """📅 ¿Para qué fecha te gustaría agendar la cita?
 
-Por favor ingresa la fecha en formato DD/MM/AAAA
-Ejemplo: 25/12/2024"""
+# Por favor ingresa la fecha en formato DD/MM/AAAA
+# Ejemplo: 25/12/2024"""
         
-        return BotResponse(
-            response_text=response_text,
-            next_step="solicitar_fecha",
-            user_data={"email": email}
-        )
+#         return BotResponse(
+#             response_text=response_text,
+#             next_step="solicitar_fecha",
+#             user_data={"email": email}
+#         ) Esto lo comente porque estaba inhabilitado por el return de arriba
 
     def _handle_date_input(self, user_data: UserData, message: str) -> BotResponse:
         """Maneja la entrada de la fecha"""
