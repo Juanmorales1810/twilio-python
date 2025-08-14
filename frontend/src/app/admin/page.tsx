@@ -119,10 +119,10 @@ export default function AdminPage() {
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div>
-                        <h2 className="text-3xl font-bold tracking-tight">
+                        <h2 className="text-3xl font-bold tracking-tight text-white">
                             Dashboard Principal
                         </h2>
-                        <p className="text-muted-foreground">
+                        <p className="text-white/80 text-sm">
                             Resumen general del sistema de chatbot Toyota San
                             Juan
                         </p>
