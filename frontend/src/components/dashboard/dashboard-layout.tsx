@@ -69,10 +69,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     return (
         <SidebarProvider>
             <AppSidebar />
-            <SidebarInset>
+            <SidebarInset className="bg-white/10 backdrop-blur-3xl">
                 <header className="flex h-16 shrink-0 items-center gap-2 border-b">
                     <div className="flex items-center gap-2 px-4 flex-1">
-                        <SidebarTrigger className="-ml-1" />
+                        <SidebarTrigger className="-ml-1 text-white" />
                         <Separator
                             orientation="vertical"
                             className="mr-2 data-[orientation=vertical]:h-4"
@@ -80,13 +80,18 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                         <Breadcrumb>
                             <BreadcrumbList>
                                 <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink href="/admin">
+                                    <BreadcrumbLink
+                                        href="/admin"
+                                        className="text-white/80 hover:text-white/40"
+                                    >
                                         Toyota San Juan
                                     </BreadcrumbLink>
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator className="hidden md:block" />
                                 <BreadcrumbItem>
-                                    <BreadcrumbPage>{section}</BreadcrumbPage>
+                                    <BreadcrumbPage className="text-white">
+                                        {section}
+                                    </BreadcrumbPage>
                                 </BreadcrumbItem>
                             </BreadcrumbList>
                         </Breadcrumb>
@@ -103,7 +108,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                                 <AvatarFallback>AD</AvatarFallback>
                             </Avatar>
                             <div className="text-sm hidden md:block">
-                                <p className="font-medium">Administrador</p>
+                                <p className="font-medium text-white">
+                                    Administrador
+                                </p>
                                 <p className="text-muted-foreground text-xs">
                                     admin@toyota.com
                                 </p>
