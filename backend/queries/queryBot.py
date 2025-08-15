@@ -32,6 +32,7 @@ def list_people_same_age(ctx: RunContext, age: int):
 # Función para procesar consultas con la IA
 def process_ai_query(query: str):
     result = agent.run_sync(query)
+    print(result.all_messages())
     return result.data
 
 
