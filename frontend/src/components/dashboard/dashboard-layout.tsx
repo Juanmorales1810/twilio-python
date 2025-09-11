@@ -67,7 +67,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     const { section, page } = getBreadcrumbInfo();
 
     return (
-        <SidebarProvider>
+        <SidebarProvider className="has-data-[variant=inset]:bg-transparent">
             <AppSidebar />
             <SidebarInset className="bg-white/10 backdrop-blur-3xl">
                 <header className="flex h-16 shrink-0 items-center gap-2 border-b">
