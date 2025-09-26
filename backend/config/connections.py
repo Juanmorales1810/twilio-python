@@ -8,7 +8,17 @@ from twilio.rest import Client
 
 load_dotenv()
 
-coleccion = MongoClient(os.getenv("MONGODB_URL")).pydanticAI
+# Configuración de base de datos
+db_client = MongoClient(os.getenv("MONGODB_URL"))
+coleccion = db_client.pydanticAI
+
+# Colecciones específicas para el sistema
+db_collections = {
+    'personas': coleccion.personas,
+    'users': coleccion.users,
+    'appointments': coleccion.appointments,
+    'conversations': coleccion.conversations
+}
 
 client = Client(os.getenv("TWILIO_ACCOUNT_SID"), os.getenv("TWILIO_AUTH_TOKEN"))
 
