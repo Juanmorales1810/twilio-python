@@ -22,20 +22,6 @@ def whatsapp_webhook(
     return Response(content=response_text, media_type='application/xml')
 
 
-
-@routerBotWhatsApp.post("/send-message")
-async def send_custom_message(request: MessageRequest):
-    try:
-        message = client.messages.create(
-            body=request.message,
-            from_=f'whatsapp:{os.getenv("TWILIO_PHONE_NUMBER")}',
-            to=f'whatsapp:{request.to}'
-        )
-        return {"status": "success", "sid": message.sid}
-    except Exception as e:
-        return {"status": "error", "message": str(e)}
-    
-
 @routerBotWhatsApp.post("/test-ai")
 def testAI(msg: str):
     message=  process_ai_query(msg)
