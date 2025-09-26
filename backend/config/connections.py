@@ -12,7 +12,9 @@ coleccion = MongoClient(os.getenv("MONGODB_URL")).pydanticAI
 
 client = Client(os.getenv("TWILIO_ACCOUNT_SID"), os.getenv("TWILIO_AUTH_TOKEN"))
 
-model= GeminiModel(os.getenv("model"), api_key=os.getenv("GEMINI_API_KEY"))
+# Usar un nombre de modelo válido para Gemini. Si no se especifica en las variables de entorno, usar gemini-1.5-flash por defecto
+model_name = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
+model= GeminiModel(model_name, api_key=os.getenv("GEMINI_API_KEY"))
 agent = Agent(model=model, system_prompt="""Eres un asistente especializado en consultas de base de datos de personas. 
 Cuando el usuario te salude, saludalo de manera amable y contale que cosas podes hacer.
 SOLO puedes responder preguntas relacionadas con:
